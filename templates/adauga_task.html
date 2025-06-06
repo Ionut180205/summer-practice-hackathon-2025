@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 class="text-2xl font-bold text-center text-primary mb-6">Adaugă un task</h1>
+
+<form method="POST" class="max-w-xl mx-auto bg-base-200 p-6 rounded space-y-4">
+    <input name="titlu" placeholder="Titlu" class="input input-bordered w-full" required>
+    <textarea name="descriere" placeholder="Descriere" class="textarea textarea-bordered w-full" required></textarea>
+
+    <label class="font-semibold block">Alege utilizatorii:</label>
+    <div class="grid grid-cols-2 gap-2">
+        {% for user in users %}
+        <label class="flex items-center gap-2">
+            <input type="checkbox" name="users" value="{{ user[0] }}" class="checkbox">
+            <span>{{ user[0] }}</span>
+        </label>
+        {% endfor %}
+    </div>
+
+    <button class="btn btn-primary w-full">Creează task</button>
+</form>
+{% endblock %}

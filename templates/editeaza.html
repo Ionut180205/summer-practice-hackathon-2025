@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Editează proiectul</h1>
+<form action="" method="POST" enctype="multipart/form-data" class="space-y-4">
+    <input name="titlu" class="input input-bordered w-full" value="{{ proiect[1] }}" required />
+    <textarea name="descriere" class="textarea textarea-bordered w-full">{{ proiect[3] }}</textarea>
+    <p>Fișier actual: <code>{{ proiect[2] }}</code></p>
+    <input type="file" name="fisier" class="file-input file-input-bordered w-full" />
+    <button class="btn btn-primary">Salvează modificările</button>
+</form>
+{% endblock %}

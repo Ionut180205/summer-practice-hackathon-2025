@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 class="text-3xl font-bold mb-6 text-center">Rezolvări pentru: {{ task[0] }}</h1>
+
+<div class="space-y-4">
+  {% for autor, fisier, comentariu in rezolvari %}
+    <div class="card bg-base-300 shadow">
+      <div class="card-body">
+        <h2 class="text-lg font-semibold">Autor: {{ autor }}</h2>
+        <p><strong>Comentariu:</strong> {{ comentariu }}</p>
+        <p>
+          <strong>Fișier:</strong>
+          <a href="{{ url_for('static', filename='uploads/' ~ fisier) }}" class="link text-blue-600" download>
+            {{ fisier }}
+          </a>
+        </p>
+      </div>
+    </div>
+  {% else %}
+    <p class="text-center">Nicio rezolvare trimisă încă.</p>
+  {% endfor %}
+</div>
+{% endblock %}

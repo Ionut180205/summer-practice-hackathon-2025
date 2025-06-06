@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1 class="text-2xl font-bold text-center text-primary mb-6">Taskurile mele</h1>
+
+{% if taskuri %}
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {% for id, titlu, descriere, creator in taskuri %}
+    <div class="card bg-base-200 shadow-lg">
+        <div class="card-body">
+            <h2 class="card-title text-primary">{{ titlu }}</h2>
+            <p class="text-sm text-gray-500">Creat de: {{ creator }}</p>
+            <p class="mb-2">{{ descriere }}</p>
+            <a href="{{ url_for('rezolva_task', task_id=id) }}" class="btn btn-outline btn-sm">Rezolvă</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-center text-base-content/70">Nu ai niciun task asignat momentan.</p>
+{% endif %}
+{% endblock %}

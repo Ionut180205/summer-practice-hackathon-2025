@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 class="text-2xl font-bold text-center mb-4 text-primary">Previzualizare: {{ filename }}</h1>
+<pre class="bg-base-200 p-4 rounded overflow-x-auto whitespace-pre-wrap text-sm max-h-[75vh]">
+{{ content }}
+</pre>
+<a href="/" class="btn btn-outline mt-4">Înapoi</a>
+{% endblock %}

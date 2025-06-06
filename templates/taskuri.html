@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 class="text-3xl font-bold mb-6 text-center">Lista Taskuri</h1>
+
+{% if session.get("role") == "admin" %}
+  <div class="text-right mb-4">
+    <a href="/adauga-task" class="btn btn-primary">Adaugă task nou</a>
+  </div>
+{% endif %}
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  {% for id, titlu, descriere, creator in taskuri %}
+    <div class="card bg-base-300 shadow-lg">
+      <div class="card-body">
+        <h2 class="card-title">{{ titlu }}</h2>
+        <p>{{ descriere }}</p>
+        <p class="text-sm text-gray-500">Creat de: {{ creator }}</p>
+        
+        <div class="mt-4">
+          {% if session.get("role") == "user" %}
+            <a href="/rezolva-task/{{ id }}" class="btn btn-outline btn-sm">Rezolvă</a>
+          {% elif session.get("role") == "admin" %}
+            <a href="/rezolvari/{{ id }}" class="btn btn-outline btn-sm">Vezi răspunsuri</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <p class="text-center col-span-2">Niciun task momentan.</p>
+  {% endfor %}
+</div>
+{% endblock %}

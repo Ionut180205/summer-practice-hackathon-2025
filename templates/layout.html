@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Learning Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css">
+</head>
+<body class="bg-base-100 text-base-content font sans flex flex-col min-h-screen">
+    <div class="navbar bg-base-200 shadow mb-6 px-4">
+        <div class="flex-1">
+            <a class="btn btn-ghost text-xl"> Web Learning Platform </a>
+        </div>
+        <div class="flex-none">
+            {% if session.get("user") %}
+           
+
+            <a href="/taskuri" class="btn btn-primary btn-sm mr-2">Taskuri</a>
+            <span class="mr-2">HI {{session['user']}}</span>
+            <a href="/logout" class="btn btn-primary btn-sm">Logout</a>
+            {% else %}
+            <label for="login-modal" class="btn btn-primary">Login</label>
+            {% endif %}
+        </div>
+    </div>
+
+    <main class="px-4 flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer p-4 bg-base-200 text-base-content mt-10 text-center justify-center">
+        <p>© 2025 Web Learning Platform. All rights reserved.</p>
+    </footer>
+
+    <input type="checkbox" id="login-modal" class="modal-toggle" />
+    <div class="modal">
+        <div class="modal-box">
+            <div id="modal-message" class="mb-4 hidden p-2 rounded text-sm"></div>
+            <h3 class="font-bold text-lg mb-4">Autentificare</h3>
+            <form action="/login" method="POST" class="space-y-4">
+                <input name="username" placeholder="Username" class="input input-bordered w-full" required />
+                <input name="password" type="password" placeholder="password" class="input input-bordered w-full" required />
+                <button class="btn btn-primary w-full">Login</button>
+            </form>
+
+            <div class="divider">sau</div>
+
+            <h3 class="font-bold text-lg mb-4">Inregistrare</h3>
+            <form id="register-form" action="/register" method="POST" class="space-y-4">
+                <input name="username" placeholder="Create account" class="input input-bordered w-full" required />
+                <input id="password" name="password" type="password" placeholder="password" class="input input-bordered w-full" required />
+                <input id="confirm-password" type="password" placeholder="Confirm password" class="input input-bordered w-full" required />
+                <div id="password-error" class="text-red-500 text-sm hidden">Parolele nu se potrivesc.</div>
+                <button class="btn btn-primary w-full">Inregistreaza-te</button>
+            </form>
+
+            <div class="modal-action">
+                <label for="login-modal" class="btn btn-outline btn-primary">Inchide</label>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("register-form").addEventListener("submit", function(event) {
+            const pass = document.getElementById("password").value;
+            const confirm = document.getElementById("confirm-password").value;
+            const errorDiv = document.getElementById("password-error");
+
+            if (pass !== confirm) {
+                event.preventDefault(); // Oprește trimiterea formularului
+                errorDiv.classList.remove("hidden");
+            } else {
+                errorDiv.classList.add("hidden"); // ascunde mesajul dacă parolele se potrivesc
+            }
+        });
+    </script>
+
+
+    {% if session.get("role") == "user" %}
+    <label for="add-modal" class="btn btn-circle text-white bg-primary text-3xl fixed bottom-16 right-6 z-50 shadow-lg hover:scale-110 transition">+</label>
+
+    <input type="checkbox" id="add-modal" class="modal-toggle" />
+    <div class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg mb-4">Adauga proiect nou</h3>
+            <form action="/adauga-proiect" method="POST" enctype="multipart/form-data" class="space-y">
+                <input name="titlu" placeholder="Titlu proiect" class="input input-bordered w-full mb-4" required />
+                <textarea name="descriere" placeholder="Descriere" class="textarea textarea-bordered w-full mb-4" required></textarea>
+                <input type="file" name="fisier" accept=".py,.cpp,.html,.js,.txt" class="file-input file-input-bordered w-full mb-4" required />
+                <button class="btn btn-primary w-full">Încarcă</button>
+            </form>
+
+            <div class="modal-action">
+                <label for="add-modal" class="btn btn-outline btn-primary">Inchide</label>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get("modal") === "login") {
+                document.getElementById("login-modal").checked = true;
+            }
+
+            const error = params.get("error");
+            const success = params.get("success");
+
+            const messageDiv = document.getElementById("modal-message");
+            if (messageDiv && (error || success)) {
+                messageDiv.textContent = error || success;
+                messageDiv.classList.remove("hidden");
+
+                if (error) {
+                    messageDiv.classList.add("bg-red-100", "text-red-800");
+                } else if (success) {
+                    messageDiv.classList.add("bg-green-100", "text-green-800");
+                }
+            }
+
+            if (error || success) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        });
+    </script>
+</body>
+</html>

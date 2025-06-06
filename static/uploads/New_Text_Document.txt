@@ -1,0 +1,118 @@
+
+
+# (maximul de caractere unice reprezentate folosind 8 bit ASCII )
+TOTAL_CHARACTERS = 256
+# Preprocesarea necesara pentru a umple valoarea ultimei aparitii a unui caracter
+
+
+def badCharacterHeuristic(string, size):
+    badChar = [-1]*TOTAL_CHARACTERS
+
+    # Punem valoarea ultimei aparitii a unui caracter in lista badChar
+
+    for i in range(size):
+        badChar[ord(string[i])] = i
+    return badChar
+
+
+def boyerMooreAlgorithm(text, pattern):
+    lenPattern = len(pattern)
+    lenText = len(text)
+
+    badCharacter = badCharacterHeuristic(pattern, lenPattern)
+
+    miscari = 0
+
+    while (miscari <= lenText-lenPattern):
+        j = lenPattern-1
+
+        '''
+        Daca pattern-ul si text-ul se potrivesc, continuam sa-l scadem pe j
+        '''
+
+        while j >= 0 and pattern[j] == text[miscari+j]:
+            j -= 1
+
+        '''
+        Daca pattern-ul este gasit la miscarea curenta, j va fi -1
+        '''
+
+        if j < 0:
+            print("Pattern-ul a fost gasit la index-ul: ", miscari)
+
+            '''
+            Miscam pattern-ul pentru ca urmatorul caracter din text sa fie aliniat cu ultima sa aparitie in pattern.
+            '''
+            miscari += (lenPattern-badCharacter[ord(text[miscari+lenPattern])]
+                        if miscari+lenPattern < lenText else 1)
+
+        else:
+            """
+            Miscam pattern-ul pentru ca bad character-ul nostru sa fie aliniat cu ultima sa aparitie in pattern.
+            Am folosit max pentru ca miscarea sa fie una pozitiva.
+            """
+            miscari += max(1, j-badCharacter[ord(text[miscari+j])])
+
+
+text =    "Ce face maria"
+pattern =           "maria"
+boyerMooreAlgorithm(text, pattern)
+
+
+# (maximul de caractere unice reprezentate folosind 8 bit ASCII )
+TOTAL_CHARACTERS = 256
+# Preprocesarea necesara pentru a umple valoarea ultimei aparitii a unui caracter
+
+
+def badCharacterHeuristic(string, size):
+    badChar = [-1]*TOTAL_CHARACTERS
+
+    # Punem valoarea ultimei aparitii a unui caracter in lista badChar
+
+    for i in range(size):
+        badChar[ord(string[i])] = i
+    return badChar
+
+
+def boyerMooreAlgorithm(text, pattern):
+    lenPattern = len(pattern)
+    lenText = len(text)
+
+    badCharacter = badCharacterHeuristic(pattern, lenPattern)
+
+    miscari = 0
+
+    while (miscari <= lenText-lenPattern):
+        j = lenPattern-1
+
+        '''
+        Daca pattern-ul si text-ul se potrivesc, continuam sa-l scadem pe j
+        '''
+
+        while j >= 0 and pattern[j] == text[miscari+j]:
+            j -= 1
+
+        '''
+        Daca pattern-ul este gasit la miscarea curenta, j va fi -1
+        '''
+
+        if j < 0:
+            print("Pattern-ul a fost gasit la index-ul: ", miscari)
+
+            '''
+            Miscam pattern-ul pentru ca urmatorul caracter din text sa fie aliniat cu ultima sa aparitie in pattern.
+            '''
+            miscari += (lenPattern-badCharacter[ord(text[miscari+lenPattern])]
+                        if miscari+lenPattern < lenText else 1)
+
+        else:
+            """
+            Miscam pattern-ul pentru ca bad character-ul nostru sa fie aliniat cu ultima sa aparitie in pattern.
+            Am folosit max pentru ca miscarea sa fie una pozitiva.
+            """
+            miscari += max(1, j-badCharacter[ord(text[miscari+j])])
+
+
+text =    "Ce face maria"
+pattern =           "maria"
+boyerMooreAlgorithm(text, pattern)
